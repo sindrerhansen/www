@@ -16,10 +16,9 @@
 			$(document).ready(function() {
 				var options = {
 					chart: {
-						zoomType: 'xy',
+						
 						renderTo: 'container',
 						defaultSeriesType: 'spline',
-						animation: true,
 						marginRight: 130,
 						marginBottom: 25
 					},
@@ -33,8 +32,7 @@
 					},
 					xAxis: {
 						type: 'datetime',
-						tickInterval: 60 * 1000, // one hour
-						minRange: 2 * 60 * 1000, // fourteen days
+						tickInterval: 3600 * 1000, // one hour
 						tickWidth: 0,
 						gridLineWidth: 1,
 						labels: {
@@ -46,32 +44,19 @@
 							}
 						}
 					},
-					yAxis: [{
-					labels: {
-                	format: '{value}°C'
-            		},
+					yAxis: {
 						title: {
-							text: 'Temperature'
+							text: 'Temp C'
 						},
 						plotLines: [{
 							value: 0,
 							width: 1,
 							color: '#808080'
-						}],
-
-
-					},{// Secondary yAxis
-            		labels: {
-                	format: '{value} L'
-            		},
-            			title: {
-                		text: 'Volume'
-            		},
-					opposite: true
-					}],
+						}]
+					},
 					tooltip: {
 						formatter: function() {
-				                return Highcharts.dateFormat('%H%M', this.x-(1000*3600)) +': <b>'+ this.y + '</b>';
+				                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%H%M', this.x) +': <b>'+ this.y + '</b>';
 						}
 					},
 					legend: {
@@ -82,29 +67,9 @@
 						y: 100,
 						borderWidth: 0
 					},
-        				series: [{
-           				name: 'Temp1',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
-       				}, {
-           				name: 'Temp2',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
-           			}, {
-           				name: 'Temp3',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
-           			}, {
-           				name: 'Volume',
-           				yAxis: 1,
-           				data: []
-        }]
+					series: [{
+						name: 'Count'
+					}]
 				}
 				// Load data asynchronously using jQuery. On success, add the data
 				// to the options and initiate the chart.
@@ -112,32 +77,28 @@
 				// http://api.jquery.com/jQuery.get/
 				jQuery.get('data.php', null, function(tsv) {
 					var lines = [];
-					temp1 = [];
-					temp2 = [];
-					temp3 = [];
-					volume = [];
+					traffic = [];
 					try {
 						// split the data return into lines and parse them
 						tsv = tsv.split(/\n/g);
 						jQuery.each(tsv, function(i, line) {
 							line = line.split(/\t/);
 							date = Date.parse(line[0] +' UTC');
-							temp1.push([date, parseFloat(line[1].replace(',', ''), 10)]);
-							temp2.push([date, parseFloat(line[2].replace(',', ''), 10)]);
-							temp3.push([date, parseFloat(line[3].replace(',', ''), 10)]);
-							volume.push([date, parseFloat(line[4].replace(',', ''), 10)]);
+							traffic.push([
+								date,
+								parseFloat(line[1].replace(',', ''), 10)
+							]);
 						});
 					} catch (e) {  }
-					options.series[0].data = temp1;
-					options.series[1].data = temp2;
-					options.series[2].data = temp3;
-					options.series[3].data = volume;
+					options.series[0].data = traffic;
 					chart = new Highcharts.Chart(options);
 				});
 			});
 </script>
 </head>
 <body>
-<div id="container" style="width: 100%; height: 600px; margin: 0 auto"></div>	
+
+<div id="container" style="width: 100%; height: 600px; margin: 0 auto"></div>
+					
 </body>
 </html>

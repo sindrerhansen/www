@@ -46,29 +46,16 @@
 							}
 						}
 					},
-					yAxis: [{
-					labels: {
-                	format: '{value}°C'
-            		},
+					yAxis: {
 						title: {
-							text: 'Temperature'
+							text: 'Temp C'
 						},
 						plotLines: [{
 							value: 0,
 							width: 1,
 							color: '#808080'
-						}],
-
-
-					},{// Secondary yAxis
-            		labels: {
-                	format: '{value} L'
-            		},
-            			title: {
-                		text: 'Volume'
-            		},
-					opposite: true
-					}],
+						}]
+					},
 					tooltip: {
 						formatter: function() {
 				                return Highcharts.dateFormat('%H%M', this.x-(1000*3600)) +': <b>'+ this.y + '</b>';
@@ -84,25 +71,15 @@
 					},
         				series: [{
            				name: 'Temp1',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
+           				data: []
        				}, {
            				name: 'Temp2',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
+           				data: []
            			}, {
            				name: 'Temp3',
-           				data: [],
-           				tooltip: {
-                		valueSuffix: ' °C'
-                		}
+           				data: []
            			}, {
            				name: 'Volume',
-           				yAxis: 1,
            				data: []
         }]
 				}
@@ -138,6 +115,8 @@
 </script>
 </head>
 <body>
-<div id="container" style="width: 100%; height: 600px; margin: 0 auto"></div>	
+
+<div id="container" style="width: 100%; height: 600px; margin: 0 auto"></div>
+					
 </body>
 </html>
