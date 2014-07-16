@@ -7,7 +7,7 @@
 
 <title>Using Highcharts with PHP and MySQL</title>
 
-<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" ></script>
 <script type="text/javascript" src="js/highcharts.js" ></script>
 <script type="text/javascript" src="js/themes/gray.js"></script>
 
@@ -16,15 +16,15 @@
 			$(document).ready(function() {
 				var options = {
 					chart: {
-						zoomType: 'xy',
+						zoomType: 'x',
 						renderTo: 'container',
-						defaultSeriesType: 'spline',
-						animation: true,
+						defaultSeriesType: 'line',
+						animation: false,
 						marginRight: 130,
 						marginBottom: 25
 					},
 					title: {
-						text: 'Time',
+						text: 'Bakke Pale Ale Brygg Nr 1',
 						x: -20 //center
 					},
 					subtitle: {
@@ -37,15 +37,18 @@
 						minRange: 2 * 60 * 1000, // fourteen days
 						tickWidth: 0,
 						gridLineWidth: 1,
-						labels: {
-							align: 'center',
-							x: -3,
-							y: 20,
-							formatter: function() {
-								return Highcharts.dateFormat('%H%M', this.value);
-							}
-						}
+//						labels: 
+//						{
+//							align: 'center',
+//							x: -3,
+//							y: 20,
+//							formatter: function() 
+//							{
+//								return Highcharts.dateFormat('%H%M', this.value);
+//							}
+//						}
 					},
+
 					yAxis: [{
 					labels: {
                 	format: '{value}°C'
@@ -69,11 +72,11 @@
             		},
 					opposite: true
 					}],
-					tooltip: {
-						formatter: function() {
-				                return Highcharts.dateFormat('%H%M', this.x-(1000*3600)) +': <b>'+ this.y + '</b>';
-						}
-					},
+//					tooltip: {
+//						formatter: function() {
+//				                return Highcharts.dateFormat('%H%M', this.x-(1000*3600)) +': <b>'+ this.y + '</b>';
+//						}
+//					},
 					legend: {
 						layout: 'vertical',
 						align: 'right',
@@ -82,20 +85,34 @@
 						y: 100,
 						borderWidth: 0
 					},
+					plotOptions: {                	
+                	series: {
+                	shadow: false
+            		},
+                	line: {
+                    marker: {
+                        enabled: false
+                    	}
+                	}
+            		},
+
         				series: [{
            				name: 'Temp1',
+           				color:'#0000FF',
            				data: [],
            				tooltip: {
                 		valueSuffix: ' °C'
                 		}
        				}, {
            				name: 'Temp2',
+           				color:'#FFFFFF',
            				data: [],
            				tooltip: {
                 		valueSuffix: ' °C'
                 		}
            			}, {
            				name: 'Temp3',
+           				color:'#33CC33',
            				data: [],
            				tooltip: {
                 		valueSuffix: ' °C'
